@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="mb-3">Reports (the 3 queries from the report)</h3>
+{% for title, sql, rows in results %}
+<div class="card mb-4"><div class="card-body">
+  <h5>{{ title }}</h5>
+  <pre class="bg-light p-2 small">{{ sql }}</pre>
+  <table class="table table-sm table-bordered bg-white">
+    {% if rows %}
+    <tr>{% for k in rows[0].keys() %}<th>{{ k }}</th>{% endfor %}</tr>
+    {% for r in rows %}<tr>{% for v in r.values() %}<td>{{ v }}</td>{% endfor %}</tr>{% endfor %}
+    {% else %}<tr><td class="text-muted">No rows.</td></tr>{% endif %}
+  </table>
+</div></div>
+{% endfor %}
+{% endblock %}

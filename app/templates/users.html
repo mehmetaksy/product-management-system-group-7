@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Users</h3>
+<table class="table bg-white">
+  <thead><tr><th>ID</th><th>Username</th><th>Role</th><th></th></tr></thead>
+  {% for u in rows %}
+  <tr><td>{{ u.user_id }}</td><td>{{ u.username }}</td><td>{{ u.role }}</td>
+    <td class="text-end"><form method="post" action="{{ url_for('user_delete', uid=u.user_id) }}">
+      <button class="btn btn-sm btn-outline-danger">Delete</button></form></td></tr>
+  {% endfor %}
+</table>
+<h5 class="mt-4">Add user</h5>
+<form method="post" class="row g-2" style="max-width:700px">
+  <div class="col"><input name="username" class="form-control" placeholder="Username" required></div>
+  <div class="col"><input name="password" type="password" class="form-control" placeholder="Password (min 6)" required></div>
+  <div class="col"><select name="role" class="form-select"><option>staff</option><option>admin</option></select></div>
+  <div class="col-auto"><button class="btn btn-success">Add</button></div>
+</form>
+<p class="text-muted mt-2">Passwords are stored as PBKDF2-SHA256 hashes, never as plain text.</p>
+{% endblock %}

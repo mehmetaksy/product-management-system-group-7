@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>{{ 'Edit' if rid else 'Add' }} - {{ ent.title }}</h3>
+<form method="post" class="card card-body bg-white" style="max-width:520px">
+  {% for field, label, type, required in ent.fields %}
+  <div class="mb-3">
+    <label class="form-label">{{ label }}</label>
+    {% if type.startswith('select:') %}
+      <select name="{{ field }}" class="form-select" {{ 'required' if required }}>
+        <option value="">-- choose --</option>
+        {% for o in options[field] %}
+        <option value="{{ o.id }}" {{ 'selected' if row[field]|string == o.id|string }}>{{ o.name }}</option>
+        {% endfor %}
+      </select>
+    {% else %}
+      <input name="{{ field }}" type="{{ type }}" class="form-control"
+             value="{{ row[field] if row[field] is not none else '' }}"
+             {{ 'step=0.01 min=0' if type == 'number' }} {{ 'required' if required }}>
+    {% endif %}
+  </div>
+  {% endfor %}
+  <div><button class="btn btn-primary">Save</button>
+    <a class="btn btn-secondary" href="{{ url_for('entity_list', name=name) }}">Cancel</a></div>
+</form>
+{% endblock %}

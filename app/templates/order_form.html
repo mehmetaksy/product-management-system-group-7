@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>{{ 'Edit order #' ~ oid if oid else 'New order' }}</h3>
+<form method="post" class="card card-body bg-white" style="max-width:520px">
+  <div class="mb-3"><label class="form-label">Customer name</label>
+    <input name="customer_name" class="form-control" value="{{ row.customer_name or '' }}" required></div>
+  <div class="mb-3"><label class="form-label">Product</label>
+    <select name="product_id" class="form-select" required>
+      <option value="">-- choose --</option>
+      {% for p in products %}
+      <option value="{{ p.id }}" {{ 'selected' if row.product_id|string == p.id|string }}>{{ p.name }} (stock: {{ p.stock }})</option>
+      {% endfor %}
+    </select></div>
+  <div class="mb-3"><label class="form-label">Quantity</label>
+    <input name="quantity" type="number" min="1" class="form-control" value="{{ row.quantity or 1 }}" required></div>
+  <div><button class="btn btn-primary">Save</button>
+    <a class="btn btn-secondary" href="{{ url_for('orders') }}">Cancel</a></div>
+</form>
+{% endblock %}

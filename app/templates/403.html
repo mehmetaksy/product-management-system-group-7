@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="alert alert-warning">
+  <h4>403 - Access denied</h4>
+  Your role (<b>{{ session.role }}</b>) is not allowed to do this. Only admins can add, edit or delete these records.
+</div>
+<a href="{{ url_for('index') }}" class="btn btn-secondary">Back to home</a>
+{% endblock %}

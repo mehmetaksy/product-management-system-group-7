@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:16
+    container_name: pms_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: product_db
+      POSTGRES_USER: pms_user
+      POSTGRES_PASSWORD: pms_pass
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pms_user -d product_db"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  web:
+    build: ./app
+    container_name: pms_web
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_NAME: product_db
+      DB_USER: pms_user
+      DB_PASSWORD: pms_pass
+      SECRET_KEY: change-this-secret-key
+    ports:
+      - "80:5000"
+
+volumes:
+  pgdata:

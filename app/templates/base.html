@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Product Management System</title>
+  <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
+</head>
+<body class="bg-light">
+{% if session.user_id %}
+<nav class="navbar navbar-expand navbar-dark bg-dark mb-4">
+  <div class="container">
+    <a class="navbar-brand" href="{{ url_for('index') }}">PMS · Group 7</a>
+    <ul class="navbar-nav me-auto">
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('entity_list', name='products') }}">Products</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('entity_list', name='categories') }}">Categories</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('entity_list', name='suppliers') }}">Suppliers</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('orders') }}">Orders</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('reports') }}">Reports</a></li>
+      {% if session.role == 'admin' %}
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('users') }}">Users</a></li>
+      {% endif %}
+    </ul>
+    <span class="navbar-text me-3">{{ session.username }}
+      <span class="badge {{ 'bg-danger' if session.role == 'admin' else 'bg-secondary' }}">{{ session.role }}</span></span>
+    <a class="btn btn-outline-light btn-sm" href="{{ url_for('logout') }}">Logout</a>
+  </div>
+</nav>
+{% endif %}
+<main class="container">
+  {% for cat, msg in get_flashed_messages(with_categories=true) %}
+    <div class="alert alert-{{ cat }}">{{ msg }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>
