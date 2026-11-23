@@ -9,7 +9,7 @@ built with **Flask** and **PostgreSQL 16**, packaged with **Docker Compose**.
 ## Run
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/mehmetaksy/product-management-system-group-7.git
 cd product-management-system-group-7
 docker compose up --build
 ```
@@ -64,6 +64,6 @@ docker exec -i pms_db psql -U pms_user -d product_db < db/queries.sql   # run th
 
 ## Team
 
-- Name Surname – Student ID
-- Name Surname – Student ID
-- Name Surname – Student ID
+- [@mehmetaksy](https://github.com/mehmetaksy)
+- [@eylulkus06](https://github.com/eylulkus06)
+- [@ahuhayal](https://github.com/ahuhayal)
